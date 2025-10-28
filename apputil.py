@@ -28,4 +28,19 @@ class GroupEstimate(object):
         self.group_estimates_ = group_estimates
 
     def predict(self, X):
-        return None
+        
+        if not hasattr(self, "group_estimates_") or self.group_estimates_ is None:
+            raise RuntimeError(".fit() must be ran before .predict()")
+        
+        if not isinstance(X_, pd.DataFrame):
+            X_ = pd.DataFrame(X_, columns = self.group_estimates_.columns[:-1])
+
+        merged = X_.merge(self.group_estimates_, on = list(self.group_estimates_.columns[:-1]), how = 'left')
+
+
+        count_missing = merged["estimate"].isna().sum()
+
+        if count_missing > 0:
+            print(f"There are {count_missing} missing groups")
+
+        return merged["estimate"].values
