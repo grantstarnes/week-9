@@ -8,7 +8,12 @@ class GroupEstimate(object):
         self.estimate = estimate
     
     def fit(self, X, y):
-        return None
+        if not isinstance(X, pd.DataFrame):
+            raise TypeError("X is not a valid pandas DataFrame")
+        if len(X) != len(y):
+            raise ValueError("X and y should have the same number of rows")
+        if pd.isnull(y).any():
+            raise ValueError("y must not contain missing values")
 
     def predict(self, X):
         return None
