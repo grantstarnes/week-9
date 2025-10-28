@@ -32,10 +32,10 @@ class GroupEstimate(object):
         if not hasattr(self, "group_estimates_") or self.group_estimates_ is None:
             raise RuntimeError(".fit() must be ran before .predict()")
         
-        if not isinstance(X_, pd.DataFrame):
-            X_ = pd.DataFrame(X_, columns = self.group_estimates_.columns[:-1])
+        if not isinstance(X, pd.DataFrame):
+            X = pd.DataFrame(X, columns = self.group_estimates_.columns[:-1])
 
-        merged = X_.merge(self.group_estimates_, on = list(self.group_estimates_.columns[:-1]), how = 'left')
+        merged = X.merge(self.group_estimates_, on = list(self.group_estimates_.columns[:-1]), how = 'left')
 
 
         count_missing = merged["estimate"].isna().sum()
